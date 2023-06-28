@@ -1,16 +1,62 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+def print_board(board):
+    print("------------")
+    for i in range(3):
+        print('|', board[i][0], '|', board[i][1], '|', board[i][2])
+        print("-----------")
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+def check_win(board, player):
+    for i in range(3):
+        if board[i][0] == board[i][1] == board[i][2] == player:
+            return True
+    for i in range(3):
+        if board[0][i] == board[1][i] == board[2][i] == player:
+            return True
+    if board[0][0] == board[1][1] == board[2][2] == player:
+        return True
+    if board[0][2] == board[1][1] == board[2][0] == player:
+        return True
+    return False
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+def check_draw(board):
+    for i in range(3):
+        for j in range(3):
+            if board[i][j] == ' ':
+                # print("draw")
+                return False
+    return True
+
+
+def play_game():
+    board = [[' ', ' ', ' '],
+             [' ', ' ', ' '],
+             [' ', ' ', ' ']]
+    current_player = 'X'
+
+    while True:
+        print_board(board)
+
+        print("player", current_player, "turn")
+        row = int(input("enter the row no 0/1/2"))
+        col = int(input("enter the col on 0/1/2"))
+        if (not 0 <= row <= 2) or (not 0 <= col <= 2):
+            continue
+        if board[row][col] == ' ':
+            board[row][col] = current_player
+        else:
+            print("the space is not vacant")
+            continue
+        if check_win(board, current_player):
+            print_board(board)
+            print("player", current_player, "wins")
+            break
+        if check_draw(board):
+            print("draw")
+            break
+        if current_player == 'X':
+
+            current_player = 'O'
+        else:
+            current_player = 'X'
+play_game()
